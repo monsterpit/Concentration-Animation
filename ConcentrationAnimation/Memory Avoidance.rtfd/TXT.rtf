@@ -1,0 +1,192 @@
+{\rtf1\ansi\ansicpg1252\cocoartf1561\cocoasubrtf600
+{\fonttbl\f0\fswiss\fcharset0 Helvetica;}
+{\colortbl;\red255\green255\blue255;}
+{\*\expandedcolortbl;;}
+\margl1440\margr1440\vieww9000\viewh8400\viewkind0
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\qc\partightenfactor0
+
+\f0\b\fs24 \cf0 Memory Cycle Avoidance\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural\partightenfactor0
+
+\b0 \cf0 \
+\
+check this link\
+https://learnappmaking.com/closures-swift-how-to/\
+http://fuckingclosuresyntax.com/\
+\
+\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural\partightenfactor0
+\cf0 {{\NeXTGraphic Screen Shot 2019-04-21 at 8.26.12 PM.png \width12660 \height6160 \appleattachmentpadding0 \appleembedtype0 \appleaqc
+}¬}\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural\partightenfactor0
+\cf0 \
+\
+So there's a push behavior and we set it's magnitude and it's angle  but i really want that push behavior to get thrown away as soon as it pushes\
+because it's instantaneous , so it only gonna push once and then I want it to get thrown away so it doesn't muck up the heap  with totally useless behavior \
+well we can do that with that action method (yellow part ) so we can just have push behavior action .\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural\partightenfactor0
+
+\b \cf0 All behavior inherit  this action closure 
+\b0 \
+and inside the closure I can ask the push behavior dynamicAnimator please remove me \
+
+\b pushBehavior.dynamicAnimator!.removeBehavior(pushBehavior)
+\b0 \
+So that's cool solves the problem well yeah but red on the slide this clear it creates a memory cycle \
+So lets talk about memory cycle this creates  and the bottom line here is the \
+push behavior is pointing to that closure \
+that closure is pointing back to the push behavior \
+so both of them have a pointer to something out them in the heap and so they are both being kept in the heap \
+\
+\
+So me to say how to fix this memory cycle  I'm gonna have to take you aside here and go back  and teach  a little more about closures \
+\
+\
+\
+\
+\
+\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural\qc\partightenfactor0
+
+\b \cf0 Aside : Closure Capturing\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural\partightenfactor0
+
+\b0 \cf0 {{\NeXTGraphic Screen Shot 2019-04-21 at 8.49.13 PM.png \width12740 \height2740 \appleattachmentpadding0 \appleembedtype0 \appleaqc
+}¬}\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural\partightenfactor0
+
+\b \cf0 \
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural\qc\partightenfactor0
+\cf0 \
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural\partightenfactor0
+\cf0  When you have a closure you can define some local variables
+\b0  fun little local variables you put a little square brackets with these local variables in there right before your 
+\b in
+\b0  of your closure \
+and you can define any variables you want and you can set them to have some initial value,\
+So here we have variables x and y and i can use x and y inside my closure\
+and they will have whatever value I set there\
+It doesn't seem like it's a very much use and you are right it's not because of course I could use some "instance of the class" or I could just type "hello"  inside my closure\
+why do I need to have silly  little variables there \
+\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural\partightenfactor0
+\cf0 {{\NeXTGraphic Screen Shot 2019-04-21 at 8.50.11 PM.png \width11720 \height1740 \appleattachmentpadding0 \appleembedtype0 \appleaqc
+}¬}\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural\partightenfactor0
+\cf0 \
+\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural\partightenfactor0
+
+\b \cf0 well the reason they are not so silly is because they can be declared weak 
+\b0 \
+These x and y are different variables they are local variables just for  the closure and if you were to declare one of them weak then it now becomes an optional \
+First of all we know all weak variables they don't keep things in the heap and they also have to be weak because if thing they are pointing to goes out of the heap they get set to nil \
+I can now use x and y still inside there but x is now optional and weak \
+\
+\
+you are gonna see why that's valuable in a second\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural\partightenfactor0
+\cf0 {{\NeXTGraphic Screen Shot 2019-04-21 at 8.50.25 PM.png \width12380 \height2260 \appleattachmentpadding0 \appleembedtype0 \appleaqc
+}¬}\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural\partightenfactor0
+\cf0 \
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural\partightenfactor0
+
+\b \cf0 I can even declare those variables be unowned 
+\b0 and if you remember back to the thing when I was talking about memory management \
+unowned means it's not reference counting , it's like swift says okay it's on you if you were gonna access that thing it better be in the heap because if it's not you are crashing , that's basically what unowned means \
+\
+So that means i can use x and y inside the closure  it's not an optional don't have to worry about that \
+but if i use x and y in there and it's not in the heap it's gonna crash my app \
+\
+\
+
+\b So why is it valuable to  do weak and unowned ???
+\b0 \
+well because weak and unowned variables whether they are used as little local variables or not ,\
+because they  don't keep other things in the heap , they are not  strong , they are weak or even unowned \
+So we can use that to break memory cycles\
+\
+\
+\
+\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural\partightenfactor0
+\cf0 {{\NeXTGraphic Screen Shot 2019-04-21 at 9.24.12 PM.png \width11380 \height6060 \appleattachmentpadding0 \appleembedtype0 \appleaqc
+}¬}\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural\partightenfactor0
+\cf0 \
+So here's another example of a memory cycle that happens all the time\
+ I have a class here Zerg it's called\
+ it has a var called foo whose value is a closure \
+Inside that closure I have said it to have a value of a closure that calls another function  in Zerg which is bar()\
+This is a memory cycle\
+Because  foo the closure is referencing self , \
+self is keeping the instance class Zerg in memory \
+and therefore Zerg is keeping closure in the memory because it has a var that points  to it.\
+So they are  pointing to eachother and keeping eachother in memory \
+So that's bad you got point to other and other point to the other\
+\
+\
+\
+\
+\
+\
+\
+So how are we going to break this cycle\
+ {{\NeXTGraphic Screen Shot 2019-04-21 at 9.30.35 PM.png \width11820 \height3940 \appleattachmentpadding0 \appleembedtype0 \appleaqc
+}¬}\
+well we are gonna use those little local variables \
+So i am gonna create a little local variable it's weak , I am gonna call it 
+\b weakSelf
+\b0 \
+and am I gonna set to self and then inside I am gonna say weakSelf?.bar()   // optional chaining \
+So now there's nothing inside that closure no variable in that closure is keeping the strong pointer to self and so it's not keeping self in the heap \
+The only pointer it has the only thing it is used inside closure is weakSelf  and we know that weak can't keep something in the heap .\
+now unfortunately it's an optional , So i have to optional chain it but I have broke this cycle \
+So this is how you break the cycle using weak local variable  \
+\
+\
+\
+\
+\
+\
+\
+\
+Btw we are allowed to call that weak self    "self"  in other words exactly the same name as a variable that's in the outer scope \
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural\partightenfactor0
+\cf0 {{\NeXTGraphic Screen Shot 2019-04-21 at 9.34.39 PM.png \width11420 \height4380 \appleattachmentpadding0 \appleembedtype0 \appleaqc
+}¬}\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural\partightenfactor0
+\cf0 \
+So on this slide there are 2 different self\
+The yellow self  that's a local in the closure \
+and there's the green self that's more the global self of the instance of the class \
+So there's 2 different variables  i'm not using the green self inside the closure at all I'm using the yellow self and that one's weak \
+\
+\
+\
+\
+\
+Infact this is so common that you don't even have to say equal self \
+weak self = self\
+(*****)if you say 
+\b weak self
+\b0  it will 
+\b automatically set it equal to a variable of the same name in the surrounding code\
+
+\b0 So this is how we break cycles\
+\
+Let's go back to push behavior and look how we would use unowned
+\b \
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural\partightenfactor0
+
+\b0 \cf0 {{\NeXTGraphic Screen Shot 2019-04-21 at 9.38.00 PM.png \width11100 \height5520 \appleattachmentpadding0 \appleembedtype0 \appleaqc
+}¬}\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural\partightenfactor0
+\cf0 \
+\
+If I take the same thing that action and just say unowned pushBehavior \
+I have broken this cycle because now push behavior is no longer managed by the reference counting system and \
+but pushBehavior better be in the heap right here if doesn't in the heap we are gonna crash \
+But of course pushBehavior is gonna be in the heap if couldn't be in there then we couldnt  possibly even be executing here if it's action  could not be executed if it wasn't in the heap so we are guaranteed that pushBehavior gonna be there \
+\
+\
+So this is a classic one where we would do unowned we could have also done weak there may be check to see if it was nil \
+But it was all unnecessary because we know that never gonna be nil there it's never going to not be in the heap \
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural\partightenfactor0
+
+\b \cf0 \
+}
