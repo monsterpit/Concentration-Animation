@@ -14,6 +14,23 @@ class ViewController: UIViewController {
 
     @IBOutlet private var cardViews : [PlayCardView]!
     
+    //Step1 :- Creating Animator
+    lazy var animator = UIDynamicAnimator(referenceView: view)
+    
+    //Step2 :- Creating Behavior
+    // executing a var with a closure
+    lazy var collisionBehavior : UICollisionBehavior = {
+       let behavior = UICollisionBehavior()
+        //is have edges of of my reference view keep my cards in I want only thing the cards are gonna bounce off eachother
+        //and so I am gonna do this translatesReferenceBoundsIntoBoundary its kinda a cheap quick way to get a collision boundary
+        behavior.translatesReferenceBoundsIntoBoundary = true
+        
+        animator.addBehavior(behavior)
+        
+        return behavior
+    }()
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -32,6 +49,26 @@ class ViewController: UIViewController {
             cardView.suit = card.suit.rawValue
             
             cardView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(flipCard(_:))))
+            
+            
+            // Step 3 :- Add Item to behavior
+            collisionBehavior.addItem(cardView)
+            //now that cardView  is going to instantly going to respect that boundary and start bouncing into other cards but of course we haven't moved to the card it's not moving so we need to do that we need to do that with push behavior
+            
+            //UIPushBehavior takes the items you wanna push
+            let push = UIPushBehavior(items: [cardView], mode: .instantaneous)
+            //angle between 0 and 2pi radians
+            push.angle = (2*CGFloat.pi).arc4random
+            
+            push.magnitude = CGFloat(1.0) + CGFloat(2.0).arc4random
+            
+            //this cause memory cycle because push inside closure is kept in memory by closure and ofcourse push.action is pointing to the closure so they are keeping eachother in memory so we are getting rid of these by saying unowned 
+            push.action = { [unowned push] in
+                push.dynamicAnimator?.removeBehavior(push)
+            }
+            
+            //adding push behavior to animator
+            animator.addBehavior(push)
         }
     }
     
@@ -143,3 +180,10 @@ class ViewController: UIViewController {
 
 }
 
+extension CGFloat{
+    var arc4random : CGFloat{
+        if self > 0{ return CGFloat(arc4random_uniform(UInt32(self)))}
+        else if (self  < 0) {   return -CGFloat(arc4random_uniform(UInt32(abs(self)))) }
+        else {return 0}
+    }
+}
