@@ -94,14 +94,21 @@ class ViewController: UIViewController {
                                                             // fully transparent remember this is gonna happen immediately gonna set to zero but the user is going to see it over te course of withDuration
                                                             $0.alpha = 0
                                                         }
+                                                },
+                                                    //removing the card
+                                                    completion: { position in
+                                                        self.faceUpCardViews.forEach{
+                                                            
+                                                            //making card hidden
+                                                            $0.isHidden = true
+                                                            
+                                                            //making alpha back to 1
+                                                            $0.alpha = 1
+                                                            
+                                                            //scaling view back to identity
+                                                            $0.transform = .identity
+                                                        }
                                                 })
- //                                               ,
-//
-//
-//                                                    //removing the card
-//                                                    completion: { (<#UIViewAnimatingPosition#>) in
-//                                                        <#code#>
-//                                                })
                                         })
                                         
                                     }
