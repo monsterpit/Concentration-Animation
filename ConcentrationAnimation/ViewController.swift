@@ -73,17 +73,21 @@ class ViewController: UIViewController {
                                     //so no reason for us to do any of those weird local variables
                                     
                                     if self.faceUpCardViews.count == 2{
+                                        //so gonna execute a closure forEach of the faceUp cards so that's kinda cool way of doing for loop
+                                        self.faceUpCardViews.forEach{ cardView in
+                                            //chosenCardView == $0
+                                            UIView.transition(with: cardView,
+                                                              duration: 0.6,
+                                                              options: .transitionFlipFromLeft,
+                                                              animations: {
+                                                                cardView.isFaceUp = false
+                                            },
+                                                              completion: {finished in
+                                                                
+                                            })
+                                        }
                                         
-                                        
-                                    UIView.transition(with: chosenCardView,
-                                                      duration: 0.6,
-                                                      options: .transitionFlipFromLeft,
-                                                      animations: {
-                                                        chosenCardView.isFaceUp = !chosenCardView.isFaceUp
-                                    },
-                                                      completion: {finished in
-                                                        
-                                    })
+
                                     }
                 })
                 
