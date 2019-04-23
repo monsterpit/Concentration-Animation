@@ -16,7 +16,6 @@
 		2CD666DE225FB93200FA3911 /* PlayingCardDeck.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CD666DD225FB93200FA3911 /* PlayingCardDeck.swift */; };
 		2CFCA00622622A170049BBD1 /* Gestures.rtf in Resources */ = {isa = PBXBuildFile; fileRef = 2CFCA00522622A170049BBD1 /* Gestures.rtf */; };
 		9B93A87D226EE97D00510A62 /* CardBehavior.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B93A87C226EE97D00510A62 /* CardBehavior.swift */; };
-		9BB74B56226D9E7A00C7ADFB /* Animation.rtfd in Resources */ = {isa = PBXBuildFile; fileRef = 9BB74B52226D9E7A00C7ADFB /* Animation.rtfd */; };
 		9BB74B57226D9E7A00C7ADFB /* ARC.rtf in Resources */ = {isa = PBXBuildFile; fileRef = 9BB74B53226D9E7A00C7ADFB /* ARC.rtf */; };
 		9BB74B58226D9E7A00C7ADFB /* Memory Avoidance.rtfd in Resources */ = {isa = PBXBuildFile; fileRef = 9BB74B54226D9E7A00C7ADFB /* Memory Avoidance.rtfd */; };
 		9BB74B59226D9E7A00C7ADFB /* ARC.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 9BB74B55226D9E7A00C7ADFB /* ARC.pdf */; };
@@ -150,7 +149,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				2CFCA00622622A170049BBD1 /* Gestures.rtf in Resources */,
-				9BB74B56226D9E7A00C7ADFB /* Animation.rtfd in Resources */,
 				9BB74B58226D9E7A00C7ADFB /* Memory Avoidance.rtfd in Resources */,
 				2CD666D4225FAFFA00FA3911 /* LaunchScreen.storyboard in Resources */,
 				9BB74B57226D9E7A00C7ADFB /* ARC.rtf in Resources */,
