@@ -68,7 +68,9 @@ class ViewController: UIViewController {
     faceUpCardViews[0].suit == faceUpCardViews[1].suit
     }
     
-
+    //starts nil as we wont have lastChosenCardView when we startup
+    // and everytime we go through and choose a card we gonna remember our lastChosenCardView
+    var lastChosenCardView : PlayCardView?
     
     @objc func flipCard(_ recognizer : UITapGestureRecognizer){
         // first thing we always do is switch on recognizer state
@@ -76,6 +78,9 @@ class ViewController: UIViewController {
         case .ended:
             // because if already have 2 matching cards that are expanding and growing out then we obviously can t match anymore so that would kinda work except for that you could imagine that if I had a match and the cards that are expanding out that it might actually want to start working on my next pair and so for that to work we really wanna have those 2 matching cards not really count as faceup cards at all
             if let chosenCardView = recognizer.view as? PlayCardView,faceUpCardViews.count < 2{
+                
+                lastChosenCardView = chosenCardView
+                
                 //removing item
                 cardBehavior.removeItem(chosenCardView)
                 
@@ -142,7 +147,9 @@ class ViewController: UIViewController {
                                     }
                                     
                                     else if self.faceUpCardViews.count == 2{
-
+                                        
+                                        if chosenCardView == self.lastChosenCardView
+                                        {
                                         cardsToAnimate.forEach{ cardView in
    
                                             UIView.transition(with: cardView,
@@ -156,7 +163,7 @@ class ViewController: UIViewController {
                                                                 self.cardBehavior.addItem(cardView)
                                             })
                                         }
-                                        
+                                    }
                                     }
                                     else {
                                         if !chosenCardView.isFaceUp {
