@@ -78,6 +78,12 @@ class CardBehavior: UIDynamicBehavior {
         push(item)
     }
     
+    func removeItem(_ item : UIDynamicItem){
+        collisionBehavior.removeItem(item)
+        itemBehavior.removeItem(item)
+        // we dont have to remove push as we remove the push as soon as action happens
+    }
+    
     
 // we have to add behavior in childrens in an init
     override init(){
@@ -94,3 +100,4 @@ class CardBehavior: UIDynamicBehavior {
         animator.addBehavior(self)
     }
 }
+

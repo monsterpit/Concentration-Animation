@@ -74,6 +74,8 @@ class ViewController: UIViewController {
         case .ended:
     
             if let chosenCardView = recognizer.view as? PlayCardView{
+                //removing item
+                cardBehavior.removeItem(chosenCardView)
                 
                 UIView.transition(with: chosenCardView,
                                   duration: 0.6,
@@ -141,12 +143,18 @@ class ViewController: UIViewController {
                                                                 cardView.isFaceUp = false
                                             },
                                                               completion: {finished in
-                                                                
+                                                                //so does this cause a memory cycle no because these are animation closure
+                                                                self.cardBehavior.addItem(cardView)
                                             })
                                         }
                                         
-
                                     }
+                                    else {
+                                        if !chosenCardView.isFaceUp {
+                                            self.cardBehavior.addItem(chosenCardView)
+                                        }
+                                    }
+                                    
                 })
                 
                 
@@ -167,3 +175,13 @@ extension CGFloat{
         else {return 0}
     }
 }
+//when I pick a card I want it to stop I want to stop being animated
+//You picked a card you get to take a breath and look at your card and then
+// if you flip the card back over or if it  doesn't match and it gets flipped over for you then I'm gonna give it a push
+// because see how everything stopping so now choosing cards will start pushing them a little bit and get them going again
+//So you can wait for the whole thing to slow down and stop and then you can pick a card
+//but once you pick them they are all gonna move around again and be shuffled up again make it hard on you
+// So that seems like a good compromise to me between constant movement and all sitting completely still
+
+// So how am gonna do that well that's super easy to do because I have 1 behavior and if I remove an item from that behavior it's gonna automatically stop animating
+// becausing nothing will be behaving there will be no behaviors operating on
