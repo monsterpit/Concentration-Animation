@@ -87,7 +87,8 @@ class CardBehavior: UIDynamicBehavior {
         addChildBehavior(itemBehavior)
     }
     
-    
+    // https://useyourloaf.com/blog/adding-swift-convenience-initializers/
+    // https://docs.swift.org/swift-book/LanguageGuide/Initialization.html#//apple_ref/doc/uid/TP40014097-CH18-ID203
     convenience init(in animator : UIDynamicAnimator) {
         self.init()
         animator.addBehavior(self)
