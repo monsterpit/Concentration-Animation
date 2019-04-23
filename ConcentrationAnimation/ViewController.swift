@@ -68,6 +68,8 @@ class ViewController: UIViewController {
     faceUpCardViews[0].suit == faceUpCardViews[1].suit
     }
     
+
+    
     @objc func flipCard(_ recognizer : UITapGestureRecognizer){
         // first thing we always do is switch on recognizer state
         switch recognizer.state{
@@ -78,7 +80,7 @@ class ViewController: UIViewController {
                 cardBehavior.removeItem(chosenCardView)
                 
                 UIView.transition(with: chosenCardView,
-                                  duration: 0.6,
+                                  duration: 3.0,
                                   options: .transitionFlipFromLeft,
                                   animations: {
                                     chosenCardView.isFaceUp = !chosenCardView.isFaceUp
@@ -95,7 +97,7 @@ class ViewController: UIViewController {
                                     if self.faceUpCardViewsMatch{
                                         //MARK:- UIViewPropertyAnimator
                                         UIViewPropertyAnimator.runningPropertyAnimator(
-                                            withDuration: 3.0,
+                                            withDuration: 0.6,
                                             delay: 0,
                                             options: [],
                                             animations: {
@@ -109,7 +111,7 @@ class ViewController: UIViewController {
                                             completion: { (position) in
                                                 UIViewPropertyAnimator.runningPropertyAnimator(
 
-                                                    withDuration: 3.0,
+                                                    withDuration: 0.75,
                                                     delay: 0,
                                                     options: [],
                                                     animations: {
@@ -144,7 +146,7 @@ class ViewController: UIViewController {
                                         cardsToAnimate.forEach{ cardView in
    
                                             UIView.transition(with: cardView,
-                                                              duration: 0.6,
+                                                              duration: 3.0,
                                                               options: .transitionFlipFromLeft,
                                                               animations: {
                                                                 cardView.isFaceUp = false
@@ -180,13 +182,11 @@ extension CGFloat{
         return self * (CGFloat(arc4random_uniform(UInt32.max)) / CGFloat(UInt32.max))
     }
 }
-//when I pick a card I want it to stop I want to stop being animated
-//You picked a card you get to take a breath and look at your card and then
-// if you flip the card back over or if it  doesn't match and it gets flipped over for you then I'm gonna give it a push
-// because see how everything stopping so now choosing cards will start pushing them a little bit and get them going again
-//So you can wait for the whole thing to slow down and stop and then you can pick a card
-//but once you pick them they are all gonna move around again and be shuffled up again make it hard on you
-// So that seems like a good compromise to me between constant movement and all sitting completely still
-
-// So how am gonna do that well that's super easy to do because I have 1 behavior and if I remove an item from that behavior it's gonna automatically stop animating
-// becausing nothing will be behaving there will be no behaviors operating on
+//When you tap 3 cards continuously there is a wacky  animation
+//well what's happening here is both the original card that we flipped up and the second card are both trying to flip the 2 cards face down
+//So those 2 transforms modification in else if self.faceUpCardViews.count == 2
+//they are both trying to operate on cards at the same time
+//When something happens in the middle of transform and another transform comes along  its basically messing up the whole transform
+//Now there is a easy fix for these we just let the latset card that was chosen control the animation
+//That way they will never interfere with eachother because second one comes along and chooses it gets to do the animation
+// track of  var lastChosenCardView : PlayCardView?
