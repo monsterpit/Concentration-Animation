@@ -37,8 +37,9 @@ class CardBehavior: UIDynamicBehavior {
         //The dynamic animator that the dynamic behavior is associated with.The view that a dynamic animator was initialized with.
         //instead of pushing at random angle i am going to push towards the center So depending on where the card is in its reference view bounds , I am gonna push toward the center
         if let referenceBounds = dynamicAnimator?.referenceView?.bounds{
+           
             let center = CGPoint(x: referenceBounds.midX, y: referenceBounds.midY)
-            
+
             switch (item.center.x,item.center.y){
             case let(x,y) where x < center.x && y < center.y :
                 push.angle = (CGFloat.pi/2).arc4random
@@ -50,10 +51,11 @@ class CardBehavior: UIDynamicBehavior {
                 push.angle = CGFloat.pi + (CGFloat.pi/2).arc4random
             default:
                 push.angle = (CGFloat.pi * 2).arc4random
-                
+
             }
+       
         }
-        //push.angle = (2*CGFloat.pi).arc4random
+     //   push.angle = (2*CGFloat.pi).arc4random
         
         push.magnitude = CGFloat(1.0) + CGFloat(2.0).arc4random
         

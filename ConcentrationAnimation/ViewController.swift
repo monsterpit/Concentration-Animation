@@ -58,7 +58,7 @@ class ViewController: UIViewController {
     }
     
     private var faceUpCardViews : [PlayCardView]{
-        return cardViews.filter{$0.isFaceUp && !$0.isHidden}
+        return cardViews.filter{$0.isFaceUp && !$0.isHidden && $0.transform != CGAffineTransform.identity.scaledBy(x: 3.0, y: 3.0) && $0.alpha == 1}
     }
     
     //bool to say if 2 faceUpCard Match
@@ -72,8 +72,8 @@ class ViewController: UIViewController {
         // first thing we always do is switch on recognizer state
         switch recognizer.state{
         case .ended:
-    
-            if let chosenCardView = recognizer.view as? PlayCardView{
+            // because if already have 2 matching cards that are expanding and growing out then we obviously can t match anymore so that would kinda work except for that you could imagine that if I had a match and the cards that are expanding out that it might actually want to start working on my next pair and so for that to work we really wanna have those 2 matching cards not really count as faceup cards at all
+            if let chosenCardView = recognizer.view as? PlayCardView,faceUpCardViews.count < 2{
                 //removing item
                 cardBehavior.removeItem(chosenCardView)
                 
@@ -85,15 +85,22 @@ class ViewController: UIViewController {
                                    },
 
                                   completion: { finished in
+                                    
+                                    //when we go into our animation we look for which cards are face up by calling  self.faceUpCardViews
+                                    // well this thing is dynamically always calculating the cards that are faceUp so if we have a animation here and it starts off and it's going and then it tries to do its second part it looks for the faceUp cards again when in fact we just want this entire animation to apply to the original 2  cards that were chosen
+                                    //so we can capture that by just having a little local variable here I'm going to call it cardsToAnimate = self.faceUpCardViews
+                                    // so we are capturing it here and gonna use it everywhere 
+                                    let cardsToAnimate = self.faceUpCardViews
+                                    
                                     if self.faceUpCardViewsMatch{
                                         //MARK:- UIViewPropertyAnimator
                                         UIViewPropertyAnimator.runningPropertyAnimator(
-                                            withDuration: 0.6,
+                                            withDuration: 3.0,
                                             delay: 0,
                                             options: [],
                                             animations: {
                                                 
-                                                self.faceUpCardViews.forEach{
+                                                cardsToAnimate.forEach{
                                                     //CGAffineTransform.identity no rotation
                                                     $0.transform = CGAffineTransform.identity.scaledBy(x: 3.0, y: 3.0)
                                                 }
@@ -102,12 +109,12 @@ class ViewController: UIViewController {
                                             completion: { (position) in
                                                 UIViewPropertyAnimator.runningPropertyAnimator(
 
-                                                    withDuration: 0.75,
+                                                    withDuration: 3.0,
                                                     delay: 0,
                                                     options: [],
                                                     animations: {
                                                         
-                                                        self.faceUpCardViews.forEach{
+                                                        cardsToAnimate.forEach{
                                                          
                                                             $0.transform = CGAffineTransform.identity.scaledBy(x: 0.1, y: 0.1)
 
@@ -116,7 +123,7 @@ class ViewController: UIViewController {
                                                 },
                                                     //removing the card
                                                     completion: { position in
-                                                        self.faceUpCardViews.forEach{
+                                                        cardsToAnimate.forEach{
                                                             
                                                             //making card hidden
                                                             $0.isHidden = true
@@ -134,7 +141,7 @@ class ViewController: UIViewController {
                                     
                                     else if self.faceUpCardViews.count == 2{
 
-                                        self.faceUpCardViews.forEach{ cardView in
+                                        cardsToAnimate.forEach{ cardView in
    
                                             UIView.transition(with: cardView,
                                                               duration: 0.6,
@@ -170,9 +177,7 @@ class ViewController: UIViewController {
 
 extension CGFloat{
     var arc4random : CGFloat{
-        if self > 0{ return CGFloat(arc4random_uniform(UInt32(self)))}
-        else if (self  < 0) {   return -CGFloat(arc4random_uniform(UInt32(abs(self)))) }
-        else {return 0}
+        return self * (CGFloat(arc4random_uniform(UInt32.max)) / CGFloat(UInt32.max))
     }
 }
 //when I pick a card I want it to stop I want to stop being animated
