@@ -85,7 +85,7 @@ class ViewController: UIViewController {
                 cardBehavior.removeItem(chosenCardView)
                 
                 UIView.transition(with: chosenCardView,
-                                  duration: 3.0,
+                                  duration: 0.6,
                                   options: .transitionFlipFromLeft,
                                   animations: {
                                     chosenCardView.isFaceUp = !chosenCardView.isFaceUp
@@ -153,7 +153,7 @@ class ViewController: UIViewController {
                                         cardsToAnimate.forEach{ cardView in
    
                                             UIView.transition(with: cardView,
-                                                              duration: 3.0,
+                                                              duration: 0.6,
                                                               options: .transitionFlipFromLeft,
                                                               animations: {
                                                                 cardView.isFaceUp = false
