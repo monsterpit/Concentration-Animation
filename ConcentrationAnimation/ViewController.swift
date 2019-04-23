@@ -16,38 +16,8 @@ class ViewController: UIViewController {
 
     lazy var animator = UIDynamicAnimator(referenceView: view)
 
-    lazy var collisionBehavior : UICollisionBehavior = {
-       let behavior = UICollisionBehavior()
-
-        behavior.translatesReferenceBoundsIntoBoundary = true
-        
-        animator.addBehavior(behavior)
-        
-        return behavior
-    }()
+    lazy var cardBehavior = CardBehavior(in: animator)
     
-    lazy var itemBehavior : UIDynamicItemBehavior = {
-        let behavior = UIDynamicItemBehavior()
-        
-        //I dont want those things rotating around
-        behavior.allowsRotation = false
-        
-        //I want elasticity
-        // behavior.elasticity = 1.0 means collision don't lose any energy or gain energy .
-        // if I set behavior.elasticity = 1.1 it will gain energy those things will circle faster and faster then you would forget
-        //but if I said behavior.elasticity = 0.9 they gonna slow down
-        // So behavior.elasticity = 1.0 is this kind of as most elasticity I can give it and not run into an accelerating situation
-        behavior.elasticity = 1.0
-        
-        //which is how much it resist forces being applied on it and I am gonna set that to zero
-        //i don't want any resistance I want to be kind of free flowing and here in outer space and not resisting anything
-        behavior.resistance = 0
-        
-        animator.addBehavior(behavior)
-        
-        return behavior
-        //so now we have to add items to itemBehavior to do it's thing
-    }()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -68,22 +38,14 @@ class ViewController: UIViewController {
             
             cardView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(flipCard(_:))))
             
-            collisionBehavior.addItem(cardView)
+        //    collisionBehavior.addItem(cardView)
             
             //has soon as we add this it will have all those setting
-            itemBehavior.addItem(cardView)
+          //  itemBehavior.addItem(cardView)
             
-            let push = UIPushBehavior(items: [cardView], mode: .instantaneous)
+            cardBehavior.addItem(cardView)
+            
 
-            push.angle = (2*CGFloat.pi).arc4random
-            
-            push.magnitude = CGFloat(1.0) + CGFloat(2.0).arc4random
-            
-            push.action = { [unowned push] in
-                push.dynamicAnimator?.removeBehavior(push)
-            }
-            
-            animator.addBehavior(push)
             
             // the game is kinda easy it settles down quickly it settles down it kinda settles down too easily too quickly that's gonna make it too easy to play this game
             //all of those cards moving a little more

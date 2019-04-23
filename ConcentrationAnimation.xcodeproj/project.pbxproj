@@ -15,6 +15,7 @@
 		2CD666DC225FB03A00FA3911 /* PlayCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CD666DB225FB03A00FA3911 /* PlayCard.swift */; };
 		2CD666DE225FB93200FA3911 /* PlayingCardDeck.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CD666DD225FB93200FA3911 /* PlayingCardDeck.swift */; };
 		2CFCA00622622A170049BBD1 /* Gestures.rtf in Resources */ = {isa = PBXBuildFile; fileRef = 2CFCA00522622A170049BBD1 /* Gestures.rtf */; };
+		9B93A87D226EE97D00510A62 /* CardBehavior.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B93A87C226EE97D00510A62 /* CardBehavior.swift */; };
 		9BB74B56226D9E7A00C7ADFB /* Animation.rtfd in Resources */ = {isa = PBXBuildFile; fileRef = 9BB74B52226D9E7A00C7ADFB /* Animation.rtfd */; };
 		9BB74B57226D9E7A00C7ADFB /* ARC.rtf in Resources */ = {isa = PBXBuildFile; fileRef = 9BB74B53226D9E7A00C7ADFB /* ARC.rtf */; };
 		9BB74B58226D9E7A00C7ADFB /* Memory Avoidance.rtfd in Resources */ = {isa = PBXBuildFile; fileRef = 9BB74B54226D9E7A00C7ADFB /* Memory Avoidance.rtfd */; };
@@ -33,6 +34,7 @@
 		2CD666DB225FB03A00FA3911 /* PlayCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayCard.swift; sourceTree = "<group>"; };
 		2CD666DD225FB93200FA3911 /* PlayingCardDeck.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayingCardDeck.swift; sourceTree = "<group>"; };
 		2CFCA00522622A170049BBD1 /* Gestures.rtf */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; path = Gestures.rtf; sourceTree = "<group>"; };
+		9B93A87C226EE97D00510A62 /* CardBehavior.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardBehavior.swift; sourceTree = "<group>"; };
 		9BB74B52226D9E7A00C7ADFB /* Animation.rtfd */ = {isa = PBXFileReference; lastKnownFileType = wrapper.rtfd; path = Animation.rtfd; sourceTree = "<group>"; };
 		9BB74B53226D9E7A00C7ADFB /* ARC.rtf */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.rtf; path = ARC.rtf; sourceTree = "<group>"; };
 		9BB74B54226D9E7A00C7ADFB /* Memory Avoidance.rtfd */ = {isa = PBXFileReference; lastKnownFileType = wrapper.rtfd; path = "Memory Avoidance.rtfd"; sourceTree = "<group>"; };
@@ -71,14 +73,15 @@
 			isa = PBXGroup;
 			children = (
 				2CD666C9225FAFF900FA3911 /* AppDelegate.swift */,
-				2CD666CB225FAFF900FA3911 /* ViewController.swift */,
 				2CD666CD225FAFF900FA3911 /* Main.storyboard */,
 				2CD666D0225FAFFA00FA3911 /* Assets.xcassets */,
 				2CD666D2225FAFFA00FA3911 /* LaunchScreen.storyboard */,
 				2CD666D5225FAFFA00FA3911 /* Info.plist */,
+				2CD666CB225FAFF900FA3911 /* ViewController.swift */,
 				2CD666DB225FB03A00FA3911 /* PlayCard.swift */,
 				2CD666DD225FB93200FA3911 /* PlayingCardDeck.swift */,
 				9BE91268226069660091034A /* PlayCardView.swift */,
+				9B93A87C226EE97D00510A62 /* CardBehavior.swift */,
 				2CFCA00522622A170049BBD1 /* Gestures.rtf */,
 				9BB74B52226D9E7A00C7ADFB /* Animation.rtfd */,
 				9BB74B55226D9E7A00C7ADFB /* ARC.pdf */,
@@ -169,6 +172,7 @@
 				2CD666DC225FB03A00FA3911 /* PlayCard.swift in Sources */,
 				9BE91269226069660091034A /* PlayCardView.swift in Sources */,
 				2CD666CA225FAFF900FA3911 /* AppDelegate.swift in Sources */,
+				9B93A87D226EE97D00510A62 /* CardBehavior.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
